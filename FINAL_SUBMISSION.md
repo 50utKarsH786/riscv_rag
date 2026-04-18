@@ -6,7 +6,7 @@
 | **Email**       | unayan250@gmail.com        |
 | **Phone**       | [Your Phone Number]        |
 | **Country**     | India                      |
-| **Date**        | 2026-04-18                 |
+| **Date**        | 2026-04-19                 |
 | **LinkedIn**    | [Your LinkedIn Profile URL]|
 | **GitHub**      | [Your GitHub Profile URL]  |
 
