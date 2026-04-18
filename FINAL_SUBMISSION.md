@@ -1,14 +1,5 @@
 # RAG for RISC-V RTL — Submission
 
-| Field           | Details                    |
-|-----------------|----------------------------|
-| **Name**        | Utkarsh Nayan              |
-| **Email**       | unayan250@gmail.com        |
-| **Phone**       | [Your Phone Number]        |
-| **Country**     | India                      |
-| **Date**        | 2026-04-19                 |
-| **LinkedIn**    | [Your LinkedIn Profile URL]|
-| **GitHub**      | [Your GitHub Profile URL]  |
 
 ---
 
