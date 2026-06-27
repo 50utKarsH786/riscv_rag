@@ -6,8 +6,7 @@ import logging
 from typing import List, Dict, Tuple, Optional
 import chromadb
 from sentence_transformers import SentenceTransformer
-from langchain_groq import ChatGroq
-from dotenv import load_dotenv
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 # Setup Logging
 logging.basicConfig(
@@ -65,7 +64,7 @@ class RISCVRagEngine:
     def __init__(self, db_path: str = "./chroma_db", collection_name: str = "riscv_rag"):
         load_dotenv()
 
-        self.groq_key     = os.getenv("GROQ_API_KEY")
+        self.gemini_key = os.getenv("GOOGLE_API_KEY")
         self.verilator_bin = os.getenv("VERILATOR_BIN", "verilator")
         self.max_retries  = int(os.getenv("MAX_AUTO_FIX_ATTEMPTS", "3"))
 
@@ -84,15 +83,15 @@ class RISCVRagEngine:
             )
 
         # ── FIX 2: Groq LLM — api.groq.com must be in network allowlist ──
-        if not self.groq_key:
-            logger.error("GROQ_API_KEY not found in .env / environment.")
-            sys.exit(1)
+       if not self.gemini_key:
+           logger.error("GOOGLE_API_KEY not found in .env / environment.")
+           sys.exit(1)
 
-        logger.info("Connecting to Groq LLM (llama-3.3-70b-versatile)...")
-        self.llm = ChatGroq(
-            model="llama-3.3-70b-versatile",
-            api_key=self.groq_key,
-            temperature=0.1
+       logger.info("Connecting to Gemini LLM (gemini-1.5-flash)...")
+       self.llm = ChatGoogleGenerativeAI(
+           model="gemini-1.5-flash",
+           google_api_key=self.gemini_key,
+           temperature=0.1
         )
 
         self.system_rules = """You are an expert RTL/Verilog hardware designer specializing in RISC-V.
@@ -235,10 +234,9 @@ STRICT RULES:
                 err_str = str(e)
                 if "allowlist" in err_str.lower() or "not in allow" in err_str.lower():
                     raise RuntimeError(
-                        "Groq API (api.groq.com) is blocked by your network.\n"
-                        "Add 'api.groq.com' to your allowed domains list."
-                    ) from e
-                raise
+                        "Gemini API is blocked by your network.\n"
+                        "Add 'generativelanguage.googleapis.com' to your allowed domains."
+                     ) from e
 
             content = response.content
             # Handle list-type content (some LangChain versions return list)
